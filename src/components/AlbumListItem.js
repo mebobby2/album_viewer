@@ -2,7 +2,7 @@
 
 import React from "react";
 import { View, Text } from "react-native";
-import { Album, User } from "../types";
+import type { Album, User } from "../types";
 
 interface Props {
   album: Album;
