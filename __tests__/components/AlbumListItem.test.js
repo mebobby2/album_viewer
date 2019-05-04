@@ -8,12 +8,13 @@ import { Text } from "react-native";
 describe("AlbumListItem", () => {
   const album: Album = { id: 1, userId: 1, title: "Some Album Name" };
   const user: User = { id: 1, name: "Some User Name" };
+  const userAlbum: UserAlbum = { user, album };
   let onPress;
   let wrapper;
 
   beforeEach(() => {
     onPress = jest.fn();
-    wrapper = shallow(<AlbumListItem album={album} user={user} onPress={onPress} />);
+    wrapper = shallow(<AlbumListItem userAlbum={userAlbum} onPress={onPress} />);
   });
 
   it("should render the name of the album", () => {
@@ -28,7 +29,7 @@ describe("AlbumListItem", () => {
     it("should notify when pressed", () => {
       wrapper.simulate('press');
 
-      expect(onPress).toHaveBeenCalledWith(album);
+      expect(onPress).toHaveBeenCalledWith(userAlbum);
     });
 
     it("should not notify if no callback is present", () => {
