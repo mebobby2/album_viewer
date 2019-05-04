@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import { AlbumListItem } from "../../src/components/AlbumListItem";
-import type { Album, User } from "../../src/types";
+import type { Album, User, UserAlbum } from "../../src/types";
 import { shallow } from "enzyme";
 import { Text } from "react-native";
 

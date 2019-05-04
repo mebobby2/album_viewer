@@ -1,17 +1,17 @@
 // @flow
 
 import React from "react";
-import { View, Text } from "react-native";
+import { TouchableOpacity, Text } from "react-native";
 import type { UserAlbum } from "../types";
 
 interface Props {
   userAlbum: UserAlbum;
-  onPress?: (album: Album) => void;
+  onPress?: (album: UserAlbum) => void;
 }
 
 export const AlbumListItem = ({ userAlbum, onPress }: Props) => (
-  <View onPress={() => onPress ? onPress(userAlbum) : null}>
+  <TouchableOpacity onPress={() => onPress ? onPress(userAlbum) : null}>
     <Text>{userAlbum.album.title}</Text>
     <Text>{userAlbum.user.name}</Text>
-  </View>
+  </TouchableOpacity>
 )

@@ -6,7 +6,7 @@ import { AlbumListItem } from "./AlbumListItem";
 import type { UserAlbum } from "../types";
 
 interface Props {
-  userAlbum: [UserAlbum];
+  userAlbums: UserAlbum[];
 }
 
 export const AlbumList = ({ userAlbums }: Props) => (

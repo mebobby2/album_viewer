@@ -1,9 +1,7 @@
 // @flow
 import React from "react";
-import { AlbumListItem } from "../../src/components/AlbumListItem";
 import type { Album, User } from "../../src/types";
 import { shallow } from "enzyme";
-import { Text } from "react-native";
 import { AlbumList } from "../../src/components/AlbumList";
 
 describe("AlbumList", () => {
@@ -13,7 +11,7 @@ describe("AlbumList", () => {
   const album2: Album = { id: 1, userId: 1, title: "Some Album Name 2" };
   const user2: User = { id: 1, name: "Some User Name 2" };
 
-  userAlbums = [
+  const userAlbums = [
     { user: user1, album: album1 },
     { user: user2, album: album2 },
   ]
