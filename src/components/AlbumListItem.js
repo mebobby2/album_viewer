@@ -7,9 +7,12 @@ import type { Album, User } from "../types";
 interface Props {
   album: Album;
   user: User;
+  onPress?: (album: Album) => void;
 }
 
-export const AlbumListItem = ({ album, user }: Props) => (<View>
-  <Text>{album.title}</Text>
-  <Text>{user.name}</Text>
-</View>)
+export const AlbumListItem = ({ album, user, onPress }: Props) => (
+  <View onPress={() => onPress ? onPress(album) : null}>
+    <Text>{album.title}</Text>
+    <Text>{user.name}</Text>
+  </View>
+)

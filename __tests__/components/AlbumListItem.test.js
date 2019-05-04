@@ -8,7 +8,13 @@ import { Text } from "react-native";
 describe("AlbumListItem", () => {
   const album: Album = { id: 1, userId: 1, title: "Some Album Name" };
   const user: User = { id: 1, name: "Some User Name" };
-  const wrapper = shallow(<AlbumListItem album={album} user={user} />);
+  let onPress;
+  let wrapper;
+
+  beforeEach(() => {
+    onPress = jest.fn();
+    wrapper = shallow(<AlbumListItem album={album} user={user} onPress={onPress} />);
+  });
 
   it("should render the name of the album", () => {
     expect(wrapper.containsMatchingElement(<Text>{album.title}</Text>)).toBeTruthy();
@@ -17,4 +23,20 @@ describe("AlbumListItem", () => {
   it("should render the name of the user", () => {
     expect(wrapper.containsMatchingElement(<Text>{user.name}</Text>)).toBeTruthy();
   });
+
+  describe("onPress", () => {
+    it("should notify when pressed", () => {
+      wrapper.simulate('press');
+
+      expect(onPress).toHaveBeenCalledWith(album);
+    });
+
+    it("should not notify if no callback is present", () => {
+      wrapper.setProps({ onPress: undefined });
+      wrapper.simulate('press');
+
+      expect(onPress).not.toHaveBeenCalled();
+    });
+  })
+
 });
