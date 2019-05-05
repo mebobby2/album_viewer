@@ -22,7 +22,7 @@ describe("AlbumListItem", () => {
   });
 
   it("should render the name of the user", () => {
-    expect(wrapper.containsMatchingElement(<Text>{user.name}</Text>)).toBeTruthy();
+    expect(wrapper.containsMatchingElement(<Text>Belongs to: {user.name}</Text>)).toBeTruthy();
   });
 
   describe("onPress", () => {
