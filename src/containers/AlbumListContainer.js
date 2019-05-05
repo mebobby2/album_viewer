@@ -51,10 +51,18 @@ export default class AlbumListContainer extends Component<{}, State> {
 
   render() {
     if (!this.state.albums || !this.state.usersMap) return null;
+
+    const thumbnail = this.state.showThumbnail ?
+      <AlbumImage imageUrl={this.state.albumImage.thumbnailUrl} onPress={this.onThumbnailPress} />
+      : null;
+    const fullImage = this.state.showFullImage ?
+      <AlbumImage imageUrl={this.state.albumImage.url} onPress={this.onFullImagePress} fullSize />
+      : null;
+
     return <View>
       <AlbumList userAlbums={getUserAlbums(this.state.albums, this.state.usersMap)} onSelect={this.onSelect} />
-      {this.state.showThumbnail ? <AlbumImage imageUrl={this.state.albumImage.thumbnailUrl} onPress={this.onThumbnailPress} /> : null}
-      {this.state.showFullImage ? <AlbumImage imageUrl={this.state.albumImage.url} onPress={this.onFullImagePress} /> : null}
+      {thumbnail}
+      {fullImage}
     </View>
   }
 }

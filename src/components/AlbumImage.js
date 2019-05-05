@@ -7,13 +7,17 @@ import type { Image } from "../types";
 interface Props {
   imageUrl: string;
   onPress?: () => void;
+  fullSize?: Boolean;
 }
 
-export default ({ imageUrl, onPress }: Props) => (
-  <TouchableOpacity onPress={onPress} style={styles.container}>
-    <ImageComponent source={{ uri: imageUrl }} style={{ width: 150, height: 150 }} />
-  </TouchableOpacity>
-)
+export default ({ imageUrl, onPress, fullSize }: Props) => {
+  const imageSize = fullSize ? 600 : 150;
+  return (
+    <TouchableOpacity onPress={onPress} style={styles.container}>
+      <ImageComponent source={{ uri: imageUrl }} style={{ width: imageSize, height: imageSize }} />
+    </TouchableOpacity>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
