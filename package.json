@@ -16,10 +16,11 @@
   "devDependencies": {
     "@babel/core": "7.4.4",
     "@babel/runtime": "7.4.4",
+    "axios-mock-adapter": "^1.16.0",
     "babel-jest": "24.7.1",
     "enzyme": "^3.9.0",
-    "flow-bin": "^0.98.0",
     "enzyme-adapter-react-16": "^1.12.1",
+    "flow-bin": "^0.98.0",
     "jest": "24.7.1",
     "jest-enzyme": "^7.0.2",
     "metro-react-native-babel-preset": "0.54.0",
