@@ -11,6 +11,8 @@ interface IState {
   usersMap: { [number]: User } | null;
 }
 
+const getUserAlbums = (albums, usersMap) => albums.map(album => ({ album, user: usersMap[album.userId] }));
+
 export default class AlbumListContainer extends Component {
   state: IState = {
     albums: null,
@@ -18,8 +20,7 @@ export default class AlbumListContainer extends Component {
   }
 
   async componentWillMount() {
-    const albumsResponse = await Albums.all();
-    const usersResponse = await Users.all();
+    const [albumsResponse, usersResponse] = await Promise.all([Albums.all(), Users.all()]);
     this.setState({
       albums: albumsResponse.data,
       usersMap: _.keyBy(usersResponse.data, 'id'),
@@ -28,8 +29,6 @@ export default class AlbumListContainer extends Component {
 
   render() {
     if (!this.state.albums) return null;
-
-    const userAlbums = this.state.albums.map(album => ({ album, user: this.state.usersMap[album.userId] }))
-    return <AlbumList userAlbums={userAlbums} />;
+    return <AlbumList userAlbums={getUserAlbums(this.state.albums, this.state.usersMap)} />;
   }
 }
