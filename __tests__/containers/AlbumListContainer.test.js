@@ -85,5 +85,29 @@ describe("AlbumListContainer", () => {
         expect(image.prop('imageUrl')).toEqual(photo.thumbnailUrl);
       });
     });
+
+    it('should show the fullsize image when the thumbnail is clicked', () => {
+      setImmediate(() => {
+        let image = wrapper.find(AlbumImage);
+
+        image.simulate('press');
+
+        image = wrapper.find(AlbumImage);
+        expect(image).toHaveLength(1);
+        expect(image.prop('imageUrl')).toEqual(photo.url);
+      });
+    });
+
+    it("should close the image when full size image is clicked", () => {
+      setImmediate(() => {
+        wrapper.setState({ albumImage: photo, showFullImage: true, showThumbnail: false });
+        let image = wrapper.find(AlbumImage);
+
+        image.simulate('press');
+
+        image = wrapper.find(AlbumImage);
+        expect(image).toHaveLength(0);
+      });
+    });
   });
 });

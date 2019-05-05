@@ -11,9 +11,10 @@ import AlbumImage from "../components/AlbumImage";
 
 interface State {
   +albums: ?Album[];
-+usersMap: ?{ [number]: User };
-+albumImage: ?UserAlbum;
-showThumbnail: boolean;
+  +usersMap: ?{ [number]: User };
+  +albumImage: ?UserAlbum;
+  showThumbnail: boolean;
+  showFullImage: boolean;
 }
 
 const getUserAlbums = (albums, usersMap) => albums.map(album => ({ album, user: usersMap[album.userId] }));
@@ -23,7 +24,8 @@ export default class AlbumListContainer extends Component<{}, State> {
     albums: null,
     usersMap: null,
     albumImage: null,
-    showThumbnail: false
+    showThumbnail: false,
+    showFullImage: false,
   }
 
   async componentWillMount() {
@@ -39,11 +41,20 @@ export default class AlbumListContainer extends Component<{}, State> {
     this.setState({ albumImage: response.data[0], showThumbnail: true });
   };
 
+  onThumbnailPress = () => {
+    this.setState({ showThumbnail: false, showFullImage: true });
+  }
+
+  onFullImagePress = () => {
+    this.setState({ showFullImage: false });
+  }
+
   render() {
     if (!this.state.albums || !this.state.usersMap) return null;
     return <View>
-      <AlbumList userAlbums={getUserAlbums(this.state.albums, this.state.usersMap)} onSelect={this.onSelect} />;
-      {this.state.showThumbnail ? <AlbumImage imageUrl={this.state.albumImage.thumbnailUrl}/> : null}
+      <AlbumList userAlbums={getUserAlbums(this.state.albums, this.state.usersMap)} onSelect={this.onSelect} />
+      {this.state.showThumbnail ? <AlbumImage imageUrl={this.state.albumImage.thumbnailUrl} onPress={this.onThumbnailPress} /> : null}
+      {this.state.showFullImage ? <AlbumImage imageUrl={this.state.albumImage.url} onPress={this.onFullImagePress} /> : null}
     </View>
   }
 }
