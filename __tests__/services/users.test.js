@@ -15,7 +15,6 @@ describe("Users Service", () => {
       mock.onGet('/users').reply(200, users);
     });
 
-
     it("should fetch albums", () => {
       return Users.all().then(resp => expect(resp.data).toEqual(users));
     });

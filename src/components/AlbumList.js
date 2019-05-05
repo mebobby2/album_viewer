@@ -9,6 +9,6 @@ interface Props {
   userAlbums: UserAlbum[];
 }
 
-export const AlbumList = ({ userAlbums }: Props) => (
+export default AlbumList = ({ userAlbums }: Props) => (
   <FlatList data={userAlbums} renderItem={({ item }) => (<AlbumListItem userAlbum={item} />)} />
 )

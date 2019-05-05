@@ -2,7 +2,7 @@
 import React from "react";
 import type { Album, User } from "../../src/types";
 import { shallow } from "enzyme";
-import { AlbumList } from "../../src/components/AlbumList";
+import AlbumList from "../../src/components/AlbumList";
 
 describe("AlbumList", () => {
   const album1: Album = { id: 1, userId: 1, title: "Some Album Name 1" };
