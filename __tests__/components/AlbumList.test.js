@@ -11,12 +11,14 @@ describe("AlbumList", () => {
   const album2: Album = { id: 1, userId: 1, title: "Some Album Name 2" };
   const user2: User = { id: 1, name: "Some User Name 2" };
 
+  const onSelect = jest.fn();
+
   const userAlbums = [
     { user: user1, album: album1 },
     { user: user2, album: album2 },
   ]
 
-  let wrapper = shallow(<AlbumList userAlbums={userAlbums} />);
+  let wrapper = shallow(<AlbumList userAlbums={userAlbums} onSelect={onSelect} />);
 
   it("should render the list of user albums", () => {
     const list = wrapper.find('FlatList');
@@ -30,7 +32,17 @@ describe("AlbumList", () => {
 
     const renderItem = list.prop('renderItem');
     const item = renderItem({ item: userAlbum });
+
     expect(item.type.name).toEqual('AlbumListItem');
     expect(item.props.userAlbum).toEqual(userAlbum);
-  })
+  });
+
+  it("should call onSelect when an item is pressed", () => {
+    const list = wrapper.find('FlatList');
+
+    const renderItem = list.prop('renderItem');
+    const item = renderItem({ item: userAlbums[0] });
+
+    expect(item.props.onPress).toEqual(onSelect);
+  });
 });

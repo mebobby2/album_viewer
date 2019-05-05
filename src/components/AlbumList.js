@@ -7,18 +7,19 @@ import type { UserAlbum } from "../types";
 
 interface Props {
   userAlbums: UserAlbum[];
+  onSelect?: (album: UserAlbum) => void;
 }
 
 const Header = () => (<View style={styles.header}><Text>Album List</Text></View>);
 const Separator = () => (<View style={styles.separator} />);
 
-export default ({ userAlbums }: Props) => (
+export default ({ userAlbums, onSelect }: Props) => (
   <FlatList
     ListHeaderComponent={Header}
     ItemSeparatorComponent={Separator}
     keyExtractor={(item: UserAlbum) => item.album.id.toString()}
     data={userAlbums}
-    renderItem={({ item }) => (<AlbumListItem userAlbum={item} />)}
+    renderItem={({ item }) => (<AlbumListItem userAlbum={item} onPress={onSelect} />)}
   />
 )
 
