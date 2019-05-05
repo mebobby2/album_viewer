@@ -1,9 +1,9 @@
 import http from '../../src/services/http';
 import MockAdapter from 'axios-mock-adapter';
-import Albums from '../../src/services/albums';
-import albums from '../fixtures/albums';
+import Users from '../../src/services/users';
+import users from '../fixtures/users';
 
-describe("Albums Service", () => {
+describe("Users Service", () => {
   let mock;
 
   beforeEach(() => {
@@ -12,11 +12,12 @@ describe("Albums Service", () => {
 
   describe("all", () => {
     beforeEach(() => {
-      mock.onGet('/albums').reply(200, albums );
+      mock.onGet('/users').reply(200, users);
     });
 
+
     it("should fetch albums", () => {
-      return Albums.all().then(resp => expect(resp.data).toEqual(albums));
+      return Users.all().then(resp => expect(resp.data).toEqual(users));
     });
   });
 });
