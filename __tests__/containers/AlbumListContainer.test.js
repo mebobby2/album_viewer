@@ -2,6 +2,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import AlbumListContainer from "../../src/containers/AlbumListContainer";
+import AlbumList from "../../src/components/AlbumList";
 import Albums from "../../src/services/albums";
 import Users from "../../src/services/users";
 import albums from "../fixtures/albums";
@@ -34,7 +35,7 @@ describe("AlbumListContainer", () => {
 
   it("should render the AlbumList component", () => {
     setImmediate(() => {
-      const albumList = wrapper.find("AlbumList");
+      const albumList = wrapper.find(AlbumList);
 
       expect(albumList).toExist();
       expect(albumList.prop('userAlbums')).toEqual(

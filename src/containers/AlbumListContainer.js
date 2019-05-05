@@ -1,20 +1,20 @@
 // @flow
 import React, { Component } from "react";
-import { Album, User } from "../types";
+import type { Album, User } from "../types";
 import Albums from "../services/albums";
 import Users from "../services/users";
 import AlbumList from "../components/AlbumList";
 import _ from "lodash";
 
-interface IState {
-  albums: Album[] | null;
-  usersMap: { [number]: User } | null;
+interface State {
+  +albums: ?Album[];
+  +usersMap: ?{ [number]: User };
 }
 
 const getUserAlbums = (albums, usersMap) => albums.map(album => ({ album, user: usersMap[album.userId] }));
 
-export default class AlbumListContainer extends Component {
-  state: IState = {
+export default class AlbumListContainer extends Component<{}, State> {
+  state: State = {
     albums: null,
     usersMap: null,
   }
@@ -28,7 +28,7 @@ export default class AlbumListContainer extends Component {
   }
 
   render() {
-    if (!this.state.albums) return null;
+    if (!this.state.albums || !this.state.usersMap) return null;
     return <AlbumList userAlbums={getUserAlbums(this.state.albums, this.state.usersMap)} />;
   }
 }
