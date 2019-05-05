@@ -1,15 +1,19 @@
 // @flow
 import React, { Component } from "react";
-import type { Album, User } from "../types";
+import type { Album, User, UserAlbum } from "../types";
 import Albums from "../services/albums";
 import Users from "../services/users";
+import { View } from "react-native";
 import Photos from "../services/photos";
 import AlbumList from "../components/AlbumList";
 import _ from "lodash";
+import AlbumImage from "../components/AlbumImage";
 
 interface State {
   +albums: ?Album[];
-  +usersMap: ?{ [number]: User };
++usersMap: ?{ [number]: User };
++albumImage: ?UserAlbum;
+showThumbnail: boolean;
 }
 
 const getUserAlbums = (albums, usersMap) => albums.map(album => ({ album, user: usersMap[album.userId] }));
@@ -18,6 +22,8 @@ export default class AlbumListContainer extends Component<{}, State> {
   state: State = {
     albums: null,
     usersMap: null,
+    albumImage: null,
+    showThumbnail: false
   }
 
   async componentWillMount() {
@@ -28,12 +34,16 @@ export default class AlbumListContainer extends Component<{}, State> {
     });
   }
 
-  onSelect = (userAlbum) => {
-    Photos.all(userAlbum.album.id);
+  onSelect = async (userAlbum) => {
+    const response = await Photos.all(userAlbum.album.id);
+    this.setState({ albumImage: response.data[0], showThumbnail: true });
   };
 
   render() {
     if (!this.state.albums || !this.state.usersMap) return null;
-    return <AlbumList userAlbums={getUserAlbums(this.state.albums, this.state.usersMap)} onSelect={this.onSelect} />;
+    return <View>
+      <AlbumList userAlbums={getUserAlbums(this.state.albums, this.state.usersMap)} onSelect={this.onSelect} />;
+      {this.state.showThumbnail ? <AlbumImage imageUrl={this.state.albumImage.thumbnailUrl}/> : null}
+    </View>
   }
 }
