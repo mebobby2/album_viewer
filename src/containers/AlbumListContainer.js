@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from "react";
-import type { Album, User, UserAlbum } from "../types";
+import type { Album, User, Image, UserAlbum } from "../types";
 import Albums from "../services/albums";
 import Users from "../services/users";
 import { View } from "react-native";
@@ -12,7 +12,7 @@ import AlbumImage from "../components/AlbumImage";
 interface State {
   +albums: ?Album[];
   +usersMap: ?{ [number]: User };
-  +albumImage: ?UserAlbum;
+  +albumImage: ?Image;
   showThumbnail: boolean;
   showFullImage: boolean;
 }
@@ -36,7 +36,7 @@ export default class AlbumListContainer extends Component<{}, State> {
     });
   }
 
-  onSelect = async (userAlbum) => {
+  onSelect = async (userAlbum: UserAlbum) => {
     const response = await Photos.all(userAlbum.album.id);
     this.setState({ albumImage: response.data[0], showThumbnail: true });
   };
@@ -52,10 +52,10 @@ export default class AlbumListContainer extends Component<{}, State> {
   render() {
     if (!this.state.albums || !this.state.usersMap) return null;
 
-    const thumbnail = this.state.showThumbnail ?
+    const thumbnail = this.state.showThumbnail && this.state.albumImage ?
       <AlbumImage imageUrl={this.state.albumImage.thumbnailUrl} onPress={this.onThumbnailPress} />
       : null;
-    const fullImage = this.state.showFullImage ?
+    const fullImage = this.state.showFullImage && this.state.albumImage ?
       <AlbumImage imageUrl={this.state.albumImage.url} onPress={this.onFullImagePress} fullSize />
       : null;
 

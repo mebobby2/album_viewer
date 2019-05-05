@@ -7,7 +7,7 @@ import type { UserAlbum } from "../types";
 
 interface Props {
   userAlbums: UserAlbum[];
-  onSelect?: (album: UserAlbum) => void;
+  onSelect: (album: UserAlbum) => any;
 }
 
 const Header = () => (<View style={styles.header}><Text>Album List</Text></View>);

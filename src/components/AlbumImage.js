@@ -7,7 +7,7 @@ import type { Image } from "../types";
 interface Props {
   imageUrl: string;
   onPress?: () => void;
-  fullSize?: Boolean;
+  fullSize?: boolean;
 }
 
 export default ({ imageUrl, onPress, fullSize }: Props) => {
