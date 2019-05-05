@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import type { Album, User } from "../types";
 import Albums from "../services/albums";
 import Users from "../services/users";
+import Photos from "../services/photos";
 import AlbumList from "../components/AlbumList";
 import _ from "lodash";
 
@@ -27,8 +28,12 @@ export default class AlbumListContainer extends Component<{}, State> {
     });
   }
 
+  onSelect = (userAlbum) => {
+    Photos.all(userAlbum.album.id);
+  };
+
   render() {
     if (!this.state.albums || !this.state.usersMap) return null;
-    return <AlbumList userAlbums={getUserAlbums(this.state.albums, this.state.usersMap)} />;
+    return <AlbumList userAlbums={getUserAlbums(this.state.albums, this.state.usersMap)} onSelect={this.onSelect} />;
   }
 }
