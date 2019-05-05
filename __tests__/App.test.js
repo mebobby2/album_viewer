@@ -4,11 +4,12 @@
 
 import 'react-native';
 import React from 'react';
+import { shallow } from "enzyme";
 import App from '../src/App';
 
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
+it('renders the AlbumListContainer', () => {
+  const wrapper = shallow(<App />);
 
-it('renders correctly', () => {
-  renderer.create(<App />);
+  const albumList = wrapper.find('AlbumListContainer');
+  expect(albumList).toExist();
 });

@@ -10,5 +10,9 @@ interface Props {
 }
 
 export default ({ userAlbums }: Props) => (
-  <FlatList data={userAlbums} renderItem={({ item }) => (<AlbumListItem userAlbum={item} />)} />
+  <FlatList
+    keyExtractor={(item: UserAlbum) => item.album.id.toString()}
+    data={userAlbums}
+    renderItem={({ item }) => (<AlbumListItem userAlbum={item} />)}
+  />
 )
