@@ -17,7 +17,7 @@ interface State {
   showFullImage: boolean;
 }
 
-const getUserAlbums = (albums, usersMap) => albums.map(album => ({ album, user: usersMap[album.userId] }));
+const getUserAlbums = (albums, usersMap) => albums ? albums.map(album => ({ album, user: usersMap[album.userId] })) : [];
 
 export default class AlbumListContainer extends Component<{}, State> {
   state: State = {
@@ -50,8 +50,6 @@ export default class AlbumListContainer extends Component<{}, State> {
   }
 
   render() {
-    if (!this.state.albums || !this.state.usersMap) return null;
-
     const thumbnail = this.state.showThumbnail && this.state.albumImage ?
       <AlbumImage imageUrl={this.state.albumImage.thumbnailUrl} onPress={this.onThumbnailPress} />
       : null;
