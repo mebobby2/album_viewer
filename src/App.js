@@ -10,6 +10,8 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import AlbumListContainer from './containers/AlbumListContainer';
 
+export type NavigateTo = (route: string, params: ?{ name: string, value: string}) => void;
+
 type Props = {};
 export default class App extends Component<Props> {
   render() {

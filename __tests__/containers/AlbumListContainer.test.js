@@ -17,6 +17,8 @@ describe("AlbumListContainer", () => {
   let allUsers;
   let allPhotos;
 
+  const navigateTo = jest.fn();
+
   beforeEach(() => {
     allAlbums = jest.fn().mockResolvedValue({ data: albums });
     Albums.all = allAlbums;
@@ -24,7 +26,7 @@ describe("AlbumListContainer", () => {
     allUsers = jest.fn().mockResolvedValue({ data: users });
     Users.all = allUsers;
 
-    wrapper = shallow(<AlbumListContainer />);
+    wrapper = shallow(<AlbumListContainer navigateTo={navigateTo} />);
   });
 
   it("fetch the albums", () => {
@@ -57,57 +59,14 @@ describe("AlbumListContainer", () => {
     });
   });
 
-  describe("when a album is selected", () => {
+  it("should navigate to the image_list route when an album is selected", () => {
     const userAlbum = { album: albums[0], user: users[0] };
-    const photo = filteredPhotos[0];
 
-    beforeEach(() => {
-      allPhotos = jest.fn().mockResolvedValue({ data: filteredPhotos });
-      Photos.all = allPhotos;
+    setImmediate(() => {
+      const albumList = wrapper.find(AlbumList);
+      albumList.simulate('select', userAlbum);
 
-      setImmediate(() => {
-        const albumList = wrapper.find(AlbumList);
-        albumList.simulate('select', userAlbum);
-      });
-    });
-
-    it("should fetch the album's photos", () => {
-      setImmediate(() => {
-        expect(allPhotos).toHaveBeenCalledWith(userAlbum.album.id);
-      });
-    });
-
-    it("should show the thumbnail image", () => {
-      setImmediate(() => {
-        const image = wrapper.find(AlbumImage);
-
-        expect(image).toHaveLength(1);
-        expect(image.prop('imageUrl')).toEqual(photo.thumbnailUrl);
-      });
-    });
-
-    it('should show the fullsize image when the thumbnail is clicked', () => {
-      setImmediate(() => {
-        let image = wrapper.find(AlbumImage);
-
-        image.simulate('press');
-
-        image = wrapper.find(AlbumImage);
-        expect(image).toHaveLength(1);
-        expect(image.prop('imageUrl')).toEqual(photo.url);
-      });
-    });
-
-    it("should close the image when full size image is clicked", () => {
-      setImmediate(() => {
-        wrapper.setState({ albumImage: photo, showFullImage: true, showThumbnail: false });
-        let image = wrapper.find(AlbumImage);
-
-        image.simulate('press');
-
-        image = wrapper.find(AlbumImage);
-        expect(image).toHaveLength(0);
-      });
+      expect(navigateTo).toHaveBeenCalledWith('image_list', { albumId: userAlbum.album.id });
     });
   });
 });

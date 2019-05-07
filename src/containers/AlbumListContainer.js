@@ -1,31 +1,26 @@
 // @flow
 import React, { Component } from "react";
 import type { Album, User, Image, UserAlbum } from "../types";
+import type { NavigateTo } from "../App";
 import Albums from "../services/albums";
 import Users from "../services/users";
-import { View } from "react-native";
-import Photos from "../services/photos";
 import AlbumList from "../components/AlbumList";
 import _ from "lodash";
-import AlbumImage from "../components/AlbumImage";
 
 interface State {
   +albums: ?Album[];
-  +usersMap: ?{ [number]: User };
-  +albumImage: ?Image;
-  showThumbnail: boolean;
-  showFullImage: boolean;
++usersMap: ?{ [number]: User };
+}
+interface Props {
+  navigateTo: NavigateTo;
 }
 
 const getUserAlbums = (albums, usersMap) => albums ? albums.map(album => ({ album, user: usersMap[album.userId] })) : [];
 
-export default class AlbumListContainer extends Component<{}, State> {
+export default class AlbumListContainer extends Component<Props, State> {
   state: State = {
     albums: null,
     usersMap: null,
-    albumImage: null,
-    showThumbnail: false,
-    showFullImage: false,
   }
 
   async componentWillMount() {
@@ -36,31 +31,11 @@ export default class AlbumListContainer extends Component<{}, State> {
     });
   }
 
-  onSelect = async (userAlbum: UserAlbum) => {
-    const response = await Photos.all(userAlbum.album.id);
-    this.setState({ albumImage: response.data[0], showThumbnail: true });
+  onSelect = (userAlbum: UserAlbum) => {
+    this.props.navigateTo('image_list', { albumId: userAlbum.album.id })
   };
 
-  onThumbnailPress = () => {
-    this.setState({ showThumbnail: false, showFullImage: true });
-  }
-
-  onFullImagePress = () => {
-    this.setState({ showFullImage: false });
-  }
-
   render() {
-    const thumbnail = this.state.showThumbnail && this.state.albumImage ?
-      <AlbumImage imageUrl={this.state.albumImage.thumbnailUrl} onPress={this.onThumbnailPress} />
-      : null;
-    const fullImage = this.state.showFullImage && this.state.albumImage ?
-      <AlbumImage imageUrl={this.state.albumImage.url} onPress={this.onFullImagePress} fullSize />
-      : null;
-
-    return <View>
-      <AlbumList userAlbums={getUserAlbums(this.state.albums, this.state.usersMap)} onSelect={this.onSelect} />
-      {thumbnail}
-      {fullImage}
-    </View>
+    return <AlbumList userAlbums={getUserAlbums(this.state.albums, this.state.usersMap)} onSelect={this.onSelect} />;
   }
 }
