@@ -9,12 +9,12 @@ import AlbumImageList from "../components/AlbumImageList";
 import AlbumImage from "../components/AlbumImage";
 
 interface State {
-  +photos: Image[];
-  selectedPhoto: Image;
+  +photos: ?Image[];
+  +selectedPhoto: ?Image;
 }
 
 interface Props {
-  albumId: string;
+  albumId: number;
   navigateTo: NavigateTo;
 }
 

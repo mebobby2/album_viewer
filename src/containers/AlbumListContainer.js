@@ -10,13 +10,13 @@ import _ from "lodash";
 
 interface State {
   +albums: ?Album[];
-+usersMap: ?{ [number]: User };
+  +usersMap: ?{ [number]: User };
 }
 interface Props {
   navigateTo: NavigateTo;
 }
 
-const getUserAlbums = (albums, usersMap) => albums ? albums.map(album => ({ album, user: usersMap[album.userId] })) : [];
+const getUserAlbums = (albums, usersMap) => (albums && usersMap) ? albums.map(album => ({ album, user: usersMap[album.userId] })) : [];
 
 export default class AlbumListContainer extends Component<Props, State> {
   state: State = {
@@ -33,7 +33,7 @@ export default class AlbumListContainer extends Component<Props, State> {
   }
 
   onSelect = (userAlbum: UserAlbum) => {
-    this.props.navigateTo(ALBUM_IMAGE_LIST_ROUTE, { albumId: userAlbum.album.id })
+    this.props.navigateTo(ALBUM_IMAGE_LIST_ROUTE, { 'albumId': userAlbum.album.id })
   };
 
   render() {

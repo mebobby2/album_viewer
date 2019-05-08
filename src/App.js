@@ -11,13 +11,13 @@ import { StyleSheet, View } from 'react-native';
 import AlbumListContainer from './containers/AlbumListContainer';
 import AlbumImageListContainer from './containers/AlbumImageListContainer';
 
-type NavigationParams = { name: string, value: string };
+type NavigationParams = { [key:string]: any };
 export type NavigateTo = (route: string, params: ?NavigationParams) => void;
 
 type Props = {};
 type State = {
   route: string;
-  routeParams: NavigationParams;
+  routeParams: ?NavigationParams;
 }
 
 export const ALBUM_LIST_ROUTE = 'album_list';
@@ -32,6 +32,7 @@ const getCurrentView = (route, routeParams, navigateTo) => {
     default:
       Container = AlbumListContainer;
   }
+  // $FlowFixMe
   return <Container {...routeParams} navigateTo={navigateTo} />;
 }
 

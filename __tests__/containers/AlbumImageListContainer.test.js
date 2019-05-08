@@ -53,7 +53,7 @@ describe("AlbumImageListContainer", () => {
 
     it('should show the fullsize image', () => {
       setImmediate(() => {
-        image = wrapper.find(AlbumImage);
+        const image = wrapper.find(AlbumImage);
         expect(image).toHaveLength(1);
         expect(image.prop('imageUrl')).toEqual(photo.url);
       });

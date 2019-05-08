@@ -8,7 +8,7 @@ import AlbumImageList from "../../src/components/AlbumImageList";
 describe("AlbumImageList", () => {
   const onSelect = jest.fn();
 
-  let wrapper = shallow(<AlbumImageList images={photos} onSelect={onSelect} />);
+  let wrapper = shallow(<AlbumImageList images={photos} onSelect={onSelect} onBack={jest.fn()} />);
 
   it("should render the list photos", () => {
     const list = wrapper.find('FlatList');
