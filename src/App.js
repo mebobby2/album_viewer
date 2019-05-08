@@ -23,6 +23,18 @@ type State = {
 export const ALBUM_LIST_ROUTE = 'album_list';
 export const ALBUM_IMAGE_LIST_ROUTE = 'image_list';
 
+const getCurrentView = (route, routeParams, navigateTo) => {
+  let Container;
+  switch (route) {
+    case ALBUM_IMAGE_LIST_ROUTE:
+      Container = AlbumImageListContainer;
+      break;
+    default:
+      Container = AlbumListContainer;
+  }
+  return <Container {...routeParams} navigateTo={navigateTo} />;
+}
+
 export default class App extends Component<Props, State> {
   state: State = {
     route: ALBUM_LIST_ROUTE,
@@ -34,12 +46,9 @@ export default class App extends Component<Props, State> {
   }
 
   render() {
-    const albumList = this.state.route === ALBUM_LIST_ROUTE ? <AlbumListContainer {...this.state.routeParams} navigateTo={this.navigateTo} /> : null;
-    const imageList = this.state.route === ALBUM_IMAGE_LIST_ROUTE ? <AlbumImageListContainer {...this.state.routeParams} navigateTo={this.navigateTo} /> : null;
     return (
       <View style={styles.container}>
-        {albumList}
-        {imageList}
+        {getCurrentView(this.state.route, this.state.routeParams, this.navigateTo)}
       </View>
     );
   }
