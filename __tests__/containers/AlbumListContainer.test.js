@@ -3,19 +3,15 @@ import React from "react";
 import { shallow } from "enzyme";
 import AlbumListContainer from "../../src/containers/AlbumListContainer";
 import AlbumList from "../../src/components/AlbumList";
-import AlbumImage from "../../src/components/AlbumImage";
 import Albums from "../../src/services/albums";
 import Users from "../../src/services/users";
-import Photos from "../../src/services/photos";
 import albums from "../fixtures/albums";
 import users from "../fixtures/users";
-import filteredPhotos from "../fixtures/filteredPhotos";
 
 describe("AlbumListContainer", () => {
   let wrapper;
   let allAlbums;
   let allUsers;
-  let allPhotos;
 
   const navigateTo = jest.fn();
 
