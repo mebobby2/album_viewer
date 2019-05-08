@@ -11,12 +11,13 @@ describe("AlbumImageListContainer", () => {
   let wrapper;
   let allPhotos;
   const albumdId = 1
+  const navigateTo = jest.fn();
 
   beforeEach(() => {
     allPhotos = jest.fn().mockResolvedValue({ data: filteredPhotos });
     Photos.all = allPhotos;
 
-    wrapper = shallow(<AlbumImageListContainer albumId={albumdId} />);
+    wrapper = shallow(<AlbumImageListContainer albumId={albumdId} navigateTo={navigateTo} />);
   });
 
   it("fetch the images", () => {
@@ -30,6 +31,14 @@ describe("AlbumImageListContainer", () => {
       expect(albumImageList).toExist();
       expect(albumImageList.prop('images')).toEqual(filteredPhotos);
     });
+  });
+
+  it("should navigate back to album_list", () => {
+    const albumImageList = wrapper.find(AlbumImageList);
+
+    albumImageList.simulate('back');
+
+    expect(navigateTo).toHaveBeenCalledWith('album_list');
   });
 
   describe("when a photo is selected", () => {

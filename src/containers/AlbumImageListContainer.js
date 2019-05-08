@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from "react";
+import { ALBUM_LIST_ROUTE } from "../App";
 import type { NavigateTo } from "../App";
 import type { Album, User, Image, UserAlbum } from "../types";
 import { View } from "react-native";
@@ -36,13 +37,17 @@ export default class AlbumImageListContainer extends Component<Props, State> {
     this.setState({ selectedPhoto: null });
   }
 
+  onBack = () => {
+    this.props.navigateTo(ALBUM_LIST_ROUTE);
+  }
+
   render() {
     const fullImage = this.state.selectedPhoto ?
       <AlbumImage imageUrl={this.state.selectedPhoto.url} onPress={this.onFullImagePress} />
       : null;
 
     return <View>
-      <AlbumImageList images={this.state.photos || []} onSelect={this.onSelect} />
+      <AlbumImageList images={this.state.photos || []} onSelect={this.onSelect} onBack={this.onBack} />
       {fullImage}
     </View>
   }
