@@ -6,18 +6,19 @@ import type { Image } from "../types";
 
 interface Props {
   images: Image[];
+  onSelect: (album: Image) => any;
 }
 
 const Header = () => (<View style={styles.header}><Text>Photos</Text></View>);
 const Separator = () => (<View style={styles.separator} />);
 
-export default ({ images }: Props) => (
+export default ({ images, onSelect }: Props) => (
   <FlatList
     ListHeaderComponent={Header}
     ItemSeparatorComponent={Separator}
     keyExtractor={(item: Image) => item.id.toString()}
     data={images}
-    renderItem={({ item }) => (<TouchableOpacity>
+    renderItem={({ item }) => (<TouchableOpacity onPress={() => onSelect(item) }>
       <ImageComponent source={{ uri: item.thumbnailUrl }} style={{ width: 150, height: 150 }} />
     </TouchableOpacity>)}
   />
