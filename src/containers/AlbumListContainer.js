@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import type { Album, User, Image, UserAlbum } from "../types";
 import type { NavigateTo } from "../App";
+import { ALBUM_IMAGE_LIST_ROUTE } from "../App";
 import Albums from "../services/albums";
 import Users from "../services/users";
 import AlbumList from "../components/AlbumList";
@@ -32,7 +33,7 @@ export default class AlbumListContainer extends Component<Props, State> {
   }
 
   onSelect = (userAlbum: UserAlbum) => {
-    this.props.navigateTo('image_list', { albumId: userAlbum.album.id })
+    this.props.navigateTo(ALBUM_IMAGE_LIST_ROUTE, { albumId: userAlbum.album.id })
   };
 
   render() {
