@@ -10,16 +10,14 @@ interface Props {
 }
 
 const Header = () => (<View style={styles.header}><Text>Photos</Text></View>);
-const Separator = () => (<View style={styles.separator} />);
 
 export default ({ images, onSelect }: Props) => (
   <FlatList
     ListHeaderComponent={Header}
-    ItemSeparatorComponent={Separator}
     keyExtractor={(item: Image) => item.id.toString()}
     data={images}
-    renderItem={({ item }) => (<TouchableOpacity onPress={() => onSelect(item) }>
-      <ImageComponent source={{ uri: item.thumbnailUrl }} style={{ width: 150, height: 150 }} />
+    renderItem={({ item }) => (<TouchableOpacity onPress={() => onSelect(item) } style={styles.item}>
+      <ImageComponent source={{ uri: item.thumbnailUrl }} style={styles.image} />
     </TouchableOpacity>)}
   />
 )
@@ -34,5 +32,12 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: "#CED0CE",
+  },
+  item: {
+    alignItems: "center"
+  },
+  image: {
+    width: 150,
+    height: 150,
   }
 });
