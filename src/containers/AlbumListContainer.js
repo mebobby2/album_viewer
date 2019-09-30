@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import type { Album, User, Image, UserAlbum } from "../types";
 import type { NavigateTo } from "../App";
 import { ALBUM_IMAGE_LIST_ROUTE } from "../App";
@@ -8,35 +8,26 @@ import Users from "../services/users";
 import AlbumList from "../components/AlbumList";
 import _ from "lodash";
 
-interface State {
-  +albums: ?Album[];
-  +usersMap: ?{ [number]: User };
-}
 interface Props {
   navigateTo: NavigateTo;
 }
 
 const getUserAlbums = (albums, usersMap) => (albums && usersMap) ? albums.map(album => ({ album, user: usersMap[album.userId] })) : [];
 
-export default class AlbumListContainer extends Component<Props, State> {
-  state: State = {
-    albums: null,
-    usersMap: null,
-  }
+const onSelect = (navigateTo) => (userAlbum: UserAlbum) => {
+  navigateTo(ALBUM_IMAGE_LIST_ROUTE, { 'albumId': userAlbum.album.id })
+};
 
-  async componentWillMount() {
-    const [albumsResponse, usersResponse] = await Promise.all([Albums.all(), Users.all()]);
-    this.setState({
-      albums: albumsResponse.data,
-      usersMap: _.keyBy(usersResponse.data, 'id'),
-    });
-  }
+export default AlbumListContainer = ({ navigateTo }: Props) => {
+  const [data, setData] = useState({ albums: null, usersMap: null })
 
-  onSelect = (userAlbum: UserAlbum) => {
-    this.props.navigateTo(ALBUM_IMAGE_LIST_ROUTE, { 'albumId': userAlbum.album.id })
-  };
+  useEffect(() => {
+    async function fetchData() {
+      const [albumsResponse, usersResponse] = await Promise.all([Albums.all(), Users.all()]);
+      setData({ albums: albumsResponse.data, usersMap: _.keyBy(usersResponse.data, 'id') })
+    };
+    fetchData();
+  }, [])
 
-  render() {
-    return <AlbumList userAlbums={getUserAlbums(this.state.albums, this.state.usersMap)} onSelect={this.onSelect} />;
-  }
+  return <AlbumList userAlbums={getUserAlbums(data.albums, data.usersMap)} onSelect={onSelect(navigateTo)} />;
 }
